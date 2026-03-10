@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "users",
     "movies",
     "categories",
-    "Watch_history",
+    "watch_history",
 ]
 
 MIDDLEWARE = [
