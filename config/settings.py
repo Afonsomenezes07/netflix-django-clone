@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "movies",
     "categories",
     "watch_history",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
