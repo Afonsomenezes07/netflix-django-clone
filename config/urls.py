@@ -19,9 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from movies.views import MovieViewSet
+from watch_history.views import WatchHistoryViewSet
 
 router = DefaultRouter()
 router.register(r"movies", MovieViewSet)
+router.register(r"history", WatchHistoryViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
