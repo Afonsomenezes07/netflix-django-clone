@@ -1,6 +1,6 @@
 from rest_framework import viewsets, filters
-from .models import Movie
-from .serializers import MovieSerializer
+from .models import Movie,Favorite
+from .serializers import MovieSerializer, FavoriteSerializer
 
 class MovieViewSet(viewsets.ModelViewSet):
 
@@ -11,5 +11,11 @@ class MovieViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
 
     search_fields = ['title']
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+
+    queryset = Favorite.objects.all
+
+    serializer_class = FavoriteSerializer
     
 # Create your views here.
