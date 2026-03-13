@@ -29,5 +29,5 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.movie}"
-
+    
 # Create your models here.
