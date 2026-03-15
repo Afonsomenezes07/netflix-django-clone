@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from .models import Movie,Favorite
 from .serializers import MovieSerializer, FavoriteSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -12,9 +13,12 @@ class MovieViewSet(viewsets.ModelViewSet):
 
     serializer_class = MovieSerializer
 
+    permission_classes = [IsAuthenticated]
+
     filter_backends = [filters.SearchFilter]
 
     search_fields = ['title']
+
 
     @action(detail=False, methods=['get'])
     def by_category(self, request):
@@ -29,8 +33,13 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 class FavoriteViewSet(viewsets.ModelViewSet):
 
-    queryset = Favorite.objects.all()
-
     serializer_class = FavoriteSerializer
+
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user)
+
+
 
 # Create your views here.
