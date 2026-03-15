@@ -29,7 +29,7 @@ from rest_framework_simplejwt.views import (
 router = DefaultRouter()
 router.register(r"movies", MovieViewSet)
 router.register(r"history", WatchHistoryViewSet)
-router.register(r"favorites", FavoriteViewSet)
+router.register(r"favorites", FavoriteViewSet, basename="favorities")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
