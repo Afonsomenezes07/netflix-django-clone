@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from categories.models import Category
+from watch_history.models import WatchHistory
 from .models import Movie,Favorite
 from .serializers import MovieSerializer, FavoriteSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -61,4 +62,22 @@ class HomePageView(APIView):
 
         return Response(data)
 
+
+class RecommendationView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        user = request.user
+
+        history = WatchHistory.objects.filter(user=user)
+
+        categories = history.values_list("movie__category", flat=True).distinct()
+
+        movies = Movie.objects.filter(category__in=categories).distinct()[:10]
+
+        serializer = MovieSerializer(movies, many=True)
+
+        return Response(serializer.data)
 # Create your views here.
