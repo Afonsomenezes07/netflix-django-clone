@@ -1,7 +1,8 @@
 from rest_framework import viewsets, filters
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from categories.models import Category
 from .models import Movie,Favorite
 from .serializers import MovieSerializer, FavoriteSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -27,7 +28,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
         movies = Movie.objects.filter(category_id=category_id)
 
-        serializer = MovieSerializer(movies, many=True)
+        serializer = self.get_serializer(movies, many=True)
 
         return Response(serializer.data)
 
@@ -40,6 +41,24 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)
 
+class HomePageView(APIView):
 
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        data = {}
+
+        categories = Category.objects.all()
+
+        for category in categories:
+
+            movies = Movie.objects.filter(category=category)[:10]
+
+            serializer = MovieSerializer(movies, many=True)
+
+            data[category.name] = serializer.data
+
+        return Response(data)
 
 # Create your views here.
