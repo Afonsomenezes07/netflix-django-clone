@@ -7,7 +7,7 @@ from watch_history.models import WatchHistory
 from .models import Movie,Favorite
 from .serializers import MovieSerializer, FavoriteSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from django.shortcuts import get_object_or_404
 
 class MovieViewSet(viewsets.ModelViewSet):
 
@@ -84,11 +84,32 @@ class RecommendationView(APIView):
 
 class FeaturedMoviesView(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
 
         movies = Movie.objects.filter(featured=True)
 
         serializer = MovieSerializer(movies, many=True)
+
+        return Response(serializer.data)
+
+
+class WatchMovieView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+
+        movie = get_object_or_404(Movie, id=pk)
+
+        # salva histórico
+        WatchHistory.objects.create(
+            user=request.user,
+            movie=movie
+        )
+
+        serializer = MovieSerializer(movie)
 
         return Response(serializer.data)
 # Create your views here.
