@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from categories.models import Category
 from watch_history.models import WatchHistory
 from .models import Movie,Favorite
+from django.db.models import Count
 from .serializers import MovieSerializer, FavoriteSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
@@ -110,6 +111,28 @@ class WatchMovieView(APIView):
         )
 
         serializer = MovieSerializer(movie)
+
+        return Response(serializer.data)
+
+
+class TopMoviesView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        top_movies = (
+            WatchHistory.objects.values("movie")
+            .annotate(total=Count("movie"))
+            .order_by("-total")[:10]
+        )
+
+        movie_ids = [item["movie"] for item in top_movies]
+
+        movies_dict = {movie.pk: movie for movie in Movie.objects.filter(id__in=movie_ids)}
+        ordered_movies = [movies_dict[movie_id] for movie_id in movie_ids if movie_id in movies_dict]
+
+        serializer = MovieSerializer(ordered_movies, many=True)
 
         return Response(serializer.data)
 # Create your views here.

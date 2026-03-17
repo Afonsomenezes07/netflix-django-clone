@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from movies.views import MovieViewSet, HomePageView, FavoriteViewSet, RecommendationView, FeaturedMoviesView, WatchMovieView
+from movies.views import MovieViewSet, HomePageView, FavoriteViewSet, RecommendationView, FeaturedMoviesView, WatchMovieView, TopMoviesView
 from watch_history.views import WatchHistoryViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -39,4 +39,5 @@ urlpatterns = [
     path("api/recommendations/", RecommendationView.as_view(), name="recommendations"),
     path("api/featured/", FeaturedMoviesView.as_view(), name="featured"),
     path("api/watch/<int:pk>/", WatchMovieView.as_view(), name="watch-movie"),
+    path("api/top-movies/", TopMoviesView.as_view(), name="top-movies"),
 ]

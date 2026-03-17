@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from .models import WatchHistory
 from .serializers import WatchHistorySerializer
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
 
 class WatchHistoryViewSet(viewsets.ModelViewSet):
 
@@ -18,11 +18,9 @@ class WatchHistoryViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def continue_watching(self, request):
 
-        user = request.user
+        history = self.get_queryset()
 
-        history = WatchHistory.objects.filter(user=user)
-
-        serializer = WatchHistorySerializer(history, many=True)
+        serializer = self.get_serializer(history, many=True)
 
         return Response(serializer.data)
 
@@ -33,6 +31,9 @@ class WatchHistoryViewSet(viewsets.ModelViewSet):
         user = request.user
         movie_id = request.data.get("movie")
         progress = request.data.get("progress")
+
+        if not movie_id or progress is None:
+            return Response({"error": "movie and progress are required"}, status=400)
 
         history, created = WatchHistory.objects.get_or_create(
             user=user,
