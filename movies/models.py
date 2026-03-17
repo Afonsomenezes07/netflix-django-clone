@@ -18,6 +18,8 @@ class Movie(models.Model):
 
     duration = models.IntegerField(help_text="Duration in minutes", default=120)
 
+    featured = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
