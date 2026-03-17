@@ -12,7 +12,11 @@ class Movie(models.Model):
 
     video = models.FileField(upload_to="movies/")
 
-    Category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    year = models.IntegerField(default=2000)
+
+    duration = models.IntegerField(help_text="Duration in minutes", default=120)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -29,5 +33,5 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.movie}"
-    
+
 # Create your models here.
