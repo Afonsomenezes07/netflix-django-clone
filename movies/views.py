@@ -80,4 +80,15 @@ class RecommendationView(APIView):
         serializer = MovieSerializer(movies, many=True)
 
         return Response(serializer.data)
+
+
+class FeaturedMoviesView(APIView):
+
+    def get(self, request):
+
+        movies = Movie.objects.filter(featured=True)
+
+        serializer = MovieSerializer(movies, many=True)
+
+        return Response(serializer.data)
 # Create your views here.

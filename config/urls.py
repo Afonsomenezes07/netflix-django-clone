@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from movies.views import MovieViewSet, HomePageView, FavoriteViewSet, RecommendationView
+from movies.views import MovieViewSet, HomePageView, FavoriteViewSet, RecommendationView, FeaturedMoviesView
 from watch_history.views import WatchHistoryViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -37,4 +37,5 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/home/", HomePageView.as_view(), name="home"),
     path("api/recommendations/", RecommendationView.as_view(), name="recommendations"),
+    path("api/featured/", FeaturedMoviesView.as_view()),
 ]
