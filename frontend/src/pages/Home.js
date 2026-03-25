@@ -5,19 +5,29 @@ import { useNavigate } from "react-router-dom";
 function Home() {
     const [data, setData] = useState({});
     const [continueWatching, setContinueWatching] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-      // Categorias (home)
-      api.get("home/").then((response) => {
-        setData(response.data);
-    });
+    const fetchData = async () => {
+      try {
+        const homeResponse = await api.get("home/");
+        const historyResponse = await api.get("history/continue_watching/");
 
-    // Continue Watching
-    api.get("history/continue_watching/").then((res) => {
-        setContinueWatching(res.data);
-    });
-}, []);
+        setData(homeResponse.data);
+        setContinueWatching(historyResponse.data);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
     const addToFavorites = async (movieId) => {
         try {
@@ -27,6 +37,16 @@ function Home() {
             alert("Erro ao adicionar favorito");
         }
     };
+
+    // 🔄 LOADING
+    if (loading) {
+        return <div>Carregando...</div>
+    }
+
+    // ❌ ERRO
+    if (error) {
+        return <div>Erro ao carregar dados</div>
+    }
 
     return (
         <div>
