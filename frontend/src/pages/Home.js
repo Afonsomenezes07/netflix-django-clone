@@ -4,11 +4,18 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
     const [data, setData] = useState({});
+    const [continueWatching, setContinueWatching] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
+      // Categorias (home)
       api.get("home/").then((response) => {
         setData(response.data);
+    });
+
+    // Continue Watching
+    api.get("history/continue_watching/").then((res) => {
+        setContinueWatching(res.data);
     });
 }, []);
 
@@ -23,6 +30,24 @@ function Home() {
 
     return (
         <div>
+
+        {/* 🔥 CONTINUAR ASSISTINDO */}
+        <h2>Continuar Assistindo</h2>
+        <div style={{ display: "flex", overflowX: "scroll" }}>
+            {continueWatching.map((item) => (
+                <div key={item.id} style={{ marginRight: "10px" }}>
+                    <img
+                        src={item.movie.thumbnail}
+                        alt={item.movie.title}
+                        width="200"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => navigate(`/watch/${item.movie.id}`)}
+                    />
+                </div>
+            ))}
+        </div>
+
+        {/* 🎬 CATEGORIAS */}
         {Object.keys(data).map((category) => (
             <div key={category}>
                 <h2>{category}</h2>
@@ -44,7 +69,7 @@ function Home() {
                             <button onClick={() => addToFavorites(movie.id)}>
                                 + Minha Lista
                             </button>
-                            
+
                         </div>
                     ))}
                 </div>
