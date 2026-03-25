@@ -18,8 +18,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from movies.views import MovieViewSet, HomePageView, FavoriteViewSet, RecommendationView, FeaturedMoviesView, WatchMovieView, TopMoviesView
+
+from movies.views import (
+    MovieViewSet,
+    HomePageView,
+    FavoriteViewSet,
+    RecommendationView,
+    FeaturedMoviesView,
+    WatchMovieView,
+    TopMoviesView,
+    )
+
 from watch_history.views import WatchHistoryViewSet
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -27,17 +38,17 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 router.register(r"movies", MovieViewSet)
-router.register(r"history", WatchHistoryViewSet)
+router.register(r"history", WatchHistoryViewSet, basename="history")
 router.register(r"favorites", FavoriteViewSet, basename="favorites")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include(router.urls)),
     path("api/home/", HomePageView.as_view(), name="home"),
     path("api/recommendations/", RecommendationView.as_view(), name="recommendations"),
     path("api/featured/", FeaturedMoviesView.as_view(), name="featured"),
-    path("api/watch/<int:pk>/", WatchMovieView.as_view(), name="watch-movie"),
-    path("api/top-movies/", TopMoviesView.as_view(), name="top-movies"),
+    path("api/watch/<int:pk>/watch/", WatchMovieView.as_view(), name="watch-movie"),
+    path("api/movies/top/", TopMoviesView.as_view(), name="top-movies"),
 ]

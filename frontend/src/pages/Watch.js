@@ -7,7 +7,7 @@ function Watch() {
     const [movie, setMovie] = useState(null);
 
     useEffect(() => {
-        api.get(`watch/${id}/`).then((response) => {
+        api.get(`movies/${id}/watch`).then((response) => {
             setMovie(response.data);
         });
     }, [id]);
