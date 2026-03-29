@@ -9,22 +9,23 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Se NÃO estiver logado */}
-        {!token && (
-          <>
-          <Route path="/" element={<Login />} />
-          <Route path="*" element={<Navigate to="/" />} />
-          </>
-        )}
+        {/* LOGIN */}
+        <Route
+          path="/"
+          element={token ? <Navigate to="/home" /> : <Login />}
+        />
 
-        {/* Se estiver logado */}
-        {token && (
-          <>
-            <Route path="/" element={<Home />} />
-            <Route path="/watch/:id" element={<Watch />} />
-            <Route path="*" element={<Navigate to="/"/>} />
-          </>
-        )}
+        {/* HOME */}
+        <Route
+          path="/home"
+          element={token ? <Home /> : <Navigate to="/" />}
+        />
+
+        {/* WATCH */}
+        <Route
+          path="/watch/:id"
+          element={token ? <Watch /> : <Navigate to="/" />}
+        />
       </Routes>
     </BrowserRouter>
   );
