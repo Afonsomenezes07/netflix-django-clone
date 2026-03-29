@@ -6,7 +6,7 @@ function Login() {
     const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
-        const response = await api.post("token/", {
+        const response = await api.post("auth/token/", {
             username,
             password,
         });
