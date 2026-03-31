@@ -1,37 +1,49 @@
 import React, { useState } from "react";
 import api from "../services/api";
+import "./Login.css";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleLogin = async () => {
-        const response = await api.post("auth/token/", {
-            username,
-            password,
-        });
+        try {
+            const response = await api.post("auth/token/", {
+                username,
+                password,
+            });
 
         localStorage.setItem("token", response.data.access);
-
-        window.location.href = "/";
+        window.location.href = "/home";
+        } catch (err) {
+            setError("Invalid username or password.");
+        }
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="login-page">
+            <div className="login-box">
+                <h1 className="login-title">StreamVault</h1>
+                <h2 className="login-subtitle">Sign in</h2>
 
-            <input
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            />
+                {error && <p className="login-error">{error}</p>}
 
-            <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            />
+                <input
+                    className="login-input"
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
+                />
 
-            <button onClick={handleLogin}>Entrar</button>
+                <input
+                    className="login-input"
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button className="login-button" onClick={handleLogin}>Sign in</button>
+            </div>
         </div>
     );
 }
