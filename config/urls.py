@@ -31,6 +31,8 @@ from movies.views import (
 
 from watch_history.views import WatchHistoryViewSet
 
+from users.views import RegisterView
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -45,6 +47,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/auth/register/", RegisterView.as_view(), name="register"),
     path("api/", include(router.urls)),
     path("api/home/", HomePageView.as_view(), name="home"),
     path("api/recommendations/", RecommendationView.as_view(), name="recommendations"),
