@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "./Login.css";
 
@@ -6,6 +7,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -43,6 +45,11 @@ function Login() {
                 />
 
                 <button className="login-button" onClick={handleLogin}>Sign in</button>
+
+                <p className="login-switch">
+                    Don't have an account?{" "}
+                    <span onClick={() => navigate("/register")}>Sign up</span>
+                </p>
             </div>
         </div>
     );

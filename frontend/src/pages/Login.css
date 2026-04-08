@@ -89,3 +89,28 @@ body {
     border-radius: 6px;
     padding: 10px 14px;
 }
+
+.login-success {
+    color: #4ade80;
+    font-size: 0.9rem;
+    background: rgba(74, 222, 128, 0.1);
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+.login-switch {
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.login-switch span {
+    color: #a78bfa;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.login-switch span:hover {
+    text-decoration: underline;
+}

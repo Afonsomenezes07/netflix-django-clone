@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Watch from "./pages/Watch";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
+import Register from "./pages/Register";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -33,6 +34,12 @@ function App() {
             <PrivateRoute>
               <Watch />
             </PrivateRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+          <Register />
           }
         />
       </Routes>
