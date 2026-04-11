@@ -18,6 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from django.conf import settings
+from django.conf.urls.static import static
 
 from movies.views import (
     MovieViewSet,
@@ -54,4 +56,4 @@ urlpatterns = [
     path("api/featured/", FeaturedMoviesView.as_view(), name="featured"),
     path("api/watch/<int:pk>/watch/", WatchMovieView.as_view(), name="watch-movie"),
     path("api/movies/top/", TopMoviesView.as_view(), name="top-movies"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
